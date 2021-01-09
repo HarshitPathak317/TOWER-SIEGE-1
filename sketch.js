@@ -16,14 +16,14 @@ function preload() {
 }
 
 function setup() {
-  createCanvas();
+  //createCanvas();
   createCanvas(1000,500)
   engine = Engine.create();
   world = engine.world;
 
-  polygonObj=createSprite(width/2, 80, 10,10);
-	polygonObj.addImage(polygonimg);
-  polygonObj.scale=0.1
+  //polygonObj=createSprite(width/2, 80, 10,10);
+	//polygonObj.addImage(polygonimg);
+  //polygonObj.scale=0.1
   
   //createSprite(400, 200, 50, 50);
   ground = new Ground(400,500,1200,30);
@@ -42,11 +42,10 @@ function setup() {
   box4 = new Box(390,155,30,40);
   //for ground
   slage = new Ground(390,260,150,10);
+ polygon = Bodies.circle(50,200,20);
+  World.add(world,polygon);
 
-  polygon = Bodies.circle(50,10,25);
-  World.add(world ,polygon);
-
-  slingshout = new SlingShot(this.polygon,{x:100,y:200});
+  slingshot = new SlingShot(this.polygon,{x:100,y:200});
 
 }
 
@@ -54,8 +53,8 @@ function draw() {
   background(56,44,44);  
   Engine.update(engine);
 
-  polygonObj.x= polygon.position.x 
-  polygonObj.y= polygon.position.y 
+  //polygonObj.x= polygon.position.x 
+  //polygonObj.y= polygon.position.y 
 
   //rect(polygon.position.x,polygon.position.y,100,200);
   ground.display();
@@ -69,18 +68,20 @@ function draw() {
   box7.display();
   box8.display();
   box9.display();
+  imageMode(CENTER)
+  image(polygonimg ,polygon.position.x,polygon.position.y,40,40);
   drawSprites();
 }
 function mouseDragged(){
-  Matter.Body.setPosition(slingshout.body, {x: mouseX , y: mouseY});
+  Matter.Body.setPosition( this.polygon, {x: mouseX , y: mouseY});
 }
 function mouseReleased(){
-  slingshout.fly();
+  slingshot.fly();
 }
 function keyPressed(){
 
   if(keyCode === 32){
-      Matter.Body.setPosition(polygon.body, {x:200 , y: 50});
-     slingshot.attach(polygon.body);
+      Matter.Body.setPosition(this.polygon, {x:50 , y: 200});
+     slingshot.attach(this.polygon);
   }
 }
